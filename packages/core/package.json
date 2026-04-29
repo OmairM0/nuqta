@@ -1,0 +1,23 @@
+{
+  "name": "@nuqta/core",
+  "version": "0.0.1",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --sourcemap --clean"
+  },
+  "dependencies": {
+    "@nuqta/shared": "workspace:*"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  }
+}

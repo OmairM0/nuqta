@@ -1,0 +1,53 @@
+# dependencies
+
+node_modules/
+
+# build outputs
+
+dist/
+build/
+coverage/
+
+# TypeScript
+
+*.tsbuildinfo
+
+# logs
+
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env files
+
+.env
+.env.*
+!.env.example
+
+# OS files
+
+.DS_Store
+Thumbs.db
+
+# IDE / editors
+
+.vscode/
+.idea/
+
+# Vite
+
+.vite/
+
+# test outputs
+
+coverage/
+
+# misc
+
+tmp/
+temp/
+
+# lockfiles (keep ONE)
+
+# keep pnpm-lock.yaml (do NOT ignore it)

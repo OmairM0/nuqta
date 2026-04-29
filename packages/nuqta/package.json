@@ -1,0 +1,25 @@
+{
+  "name": "nuqta",
+  "version": "0.0.1",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --sourcemap --clean"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "dependencies": {
+    "@nuqta/core": "workspace:*",
+    "@nuqta/hooks": "workspace:*",
+    "@nuqta/renderer-dom": "workspace:*"
+  }
+}
