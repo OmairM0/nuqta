@@ -1,31 +1,42 @@
-function mount(vnode: any): Node {
-  // handle text node
-  if (typeof vnode === "string" || typeof vnode === "number") {
-    return document.createTextNode(String(vnode));
+import type { NuqtaElement, NuqtaNode } from "nuqta";
+
+function mount(node: NuqtaNode): Node {
+  // ignore null/boolean/undefined
+  if (node === null || node === undefined || typeof node === "boolean") {
+    return document.createTextNode("");
   }
 
-  // create element
-  const el = document.createElement(vnode.type);
+  // text node
+  if (typeof node === "string" || typeof node === "number") {
+    return document.createTextNode(String(node));
+  }
 
-  const props = vnode.props || {};
+  const el = document.createElement(node.type as string);
+
+  const props = node.props || {};
 
   // set props
   for (const key in props) {
     if (key === "children") continue;
-    el.setAttribute(key, props[key]);
+    if (key.startsWith("on") && typeof props[key] === "function") {
+      const eventName = key.slice(2).toLowerCase();
+      el.addEventListener(eventName, props[key]);
+      continue;
+    }
+    el.setAttribute(key, String(props[key]));
   }
 
-  // handle children
-  const children = props.children || [];
+  // children
+  const children = props.children ?? [];
 
-  children.forEach((child: any) => {
+  children.forEach((child) => {
     el.appendChild(mount(child)); // recursion
   });
 
   return el;
 }
 
-export function render(vnode: any, container: HTMLElement) {
+export function render(vnode: NuqtaElement, container: HTMLElement) {
   container.innerHTML = ""; // reset (temporary)
   container.appendChild(mount(vnode));
 }

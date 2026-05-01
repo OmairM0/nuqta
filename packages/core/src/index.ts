@@ -1,4 +1,10 @@
-export function createElement(type: any, props: any, ...children: any[]) {
+import { ElementType, NuqtaElement, NuqtaNode, PropsOf } from "./index.types";
+
+export function createElement<T extends ElementType>(
+  type: T,
+  props: PropsOf<T> | null,
+  ...children: NuqtaNode[]
+): NuqtaElement {
   return {
     type,
     props: {
@@ -7,3 +13,5 @@ export function createElement(type: any, props: any, ...children: any[]) {
     },
   };
 }
+
+export * from "./index.types";
