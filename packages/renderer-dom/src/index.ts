@@ -1,5 +1,8 @@
 import type { NuqtaElement, NuqtaNode } from "nuqta";
 
+// Types
+type NuqtaChild = NuqtaNode | NuqtaChild[];
+
 function mount(node: NuqtaNode): Node {
   // ignore null/boolean/undefined
   if (node === null || node === undefined || typeof node === "boolean") {
@@ -9,6 +12,10 @@ function mount(node: NuqtaNode): Node {
   // text node
   if (typeof node === "string" || typeof node === "number") {
     return document.createTextNode(String(node));
+  }
+
+  if (typeof node.type === "function") {
+    return mount(node.type(node.props));
   }
 
   const el = document.createElement(node.type as string);
@@ -27,13 +34,30 @@ function mount(node: NuqtaNode): Node {
   }
 
   // children
-  const children = props.children ?? [];
+  const children = normalizeChildren(props.children || []);
 
   children.forEach((child) => {
     el.appendChild(mount(child)); // recursion
   });
 
   return el;
+}
+
+function normalizeChildren(children: NuqtaChild): NuqtaNode[] {
+  const result: NuqtaNode[] = [];
+
+  function flatten(child: NuqtaChild) {
+    if (child == null) return;
+
+    if (Array.isArray(child)) {
+      child.forEach(flatten);
+    } else {
+      result.push(child);
+    }
+  }
+
+  flatten(children);
+  return result;
 }
 
 export function render(vnode: NuqtaElement, container: HTMLElement) {

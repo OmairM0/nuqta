@@ -6,16 +6,19 @@
   "main": "index.js",
   "scripts": {
     "build": "pnpm -r build",
-    "dev": "pnpm --filter playground dev",
+    "dev": "pnpm -r --parallel run dev",
+    "dev:playground": "pnpm --filter playground dev",
     "test": "vitest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.26.1",
-  "dependencies": {
-    "nuqta": "workspace:*"
-  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^25.6.0",
     "tsup": "^8.5.1",
